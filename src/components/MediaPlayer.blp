@@ -1,0 +1,13 @@
+using Gtk 4.0;
+
+template $MediaPlayer: Box {
+    visible: bind template.mpris-visible;
+
+    Image {
+        file: bind template.mpris-art;
+    }
+
+    Label {
+        label: bind template.mpris-label;
+    }
+}

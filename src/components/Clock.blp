@@ -1,0 +1,17 @@
+using Gtk 4.0;
+
+template $Clock: Box {
+    MenuButton {
+        Label {
+            label: bind template.label;
+        }
+
+        popover: Popover popover {
+            Calendar calendar {
+                show-day-names: true;
+                show-heading: true;
+                show-week-numbers: true;
+            }
+        };
+    }
+}

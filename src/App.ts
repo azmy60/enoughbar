@@ -4,7 +4,7 @@ import GLib from 'gi://GLib';
 import Gtk from 'gi://Gtk?version=4.0';
 import Gdk from 'gi://Gdk?version=4.0';
 import Astal from 'gi://Astal?version=4.0';
-import Bar from './bar/Bar';
+import Bar from './components/Bar';
 
 const defaultOptions = {
     cssPath: 'build/src/style.css',

@@ -1,0 +1,10 @@
+using Gtk 4.0;
+
+template $Battery: Box {
+    MenuButton {
+        icon-name: bind template.icon;
+        label: bind template.label;
+
+        popover: Popover {};
+    }
+}

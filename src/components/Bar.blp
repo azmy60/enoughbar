@@ -1,0 +1,18 @@
+using Gtk 4.0;
+using Astal 4.0;
+
+template $Bar: Astal.Window {
+    CenterBox {
+        start-widget: Box start-box {};
+
+        center-widget: Box center-box {};
+
+        end-widget: Box end-box {
+            MenuButton {
+                icon-name: "bluetooth-symbolic";
+
+                popover: Popover {};
+            }
+        };
+    }
+}

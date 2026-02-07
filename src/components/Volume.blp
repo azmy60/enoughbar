@@ -1,0 +1,38 @@
+using Gtk 4.0;
+
+template $Volume: Box {
+    MenuButton {
+        Image {
+            icon-name: bind template.icon;
+        }
+
+        popover: Popover popover {
+            Box {
+                orientation: vertical;
+
+                Box {
+                    Label {
+                        label: "Master";
+                    }
+
+                    Scale {
+                        width-request: 100;
+                        change-value => $change_volume();
+
+                        adjustment: Adjustment {
+                            value: bind template.value;
+                            lower: 0;
+                            upper: 1;
+                        };
+                    }
+                }
+
+                Box {
+                    css-classes: [
+                        "divider",
+                    ];
+                }
+            }
+        };
+    }
+}

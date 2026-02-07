@@ -6,7 +6,12 @@ gjs = find_program('gjs', required: true)
 layer_shell = dependency('gtk4-layer-shell-0')
 
 blueprint_sources = files(
-  'bar/Bar.blp',
+  'components/Bar.blp',
+  'components/Battery.blp',
+  'components/Clock.blp',
+  'components/MediaPlayer.blp',
+  'components/Network.blp',
+  'components/Volume.blp',
 )
 
 # transplie blueprints
@@ -23,27 +28,20 @@ ui = custom_target(
   ],
 )
 
-js_command = [
-  esbuild,
-  '--bundle', '@INPUT@',
-  '--format=esm',
-  '--outfile=@OUTPUT@',
-  '--sourcemap=inline',
-  '--external:gi://*',
-  '--external:gettext',
-  '--external:system',
-]
-if get_option('dev')
-  js_command += [
-    '--define:IS_DEVELOPMENT=true',
-  ]
-endif
-
 # bundle ts files
 js = custom_target(
   'typescript',
   input: files('App.ts'),
-  command: js_command,
+  command: [
+    esbuild,
+    '--bundle', '@INPUT@',
+    '--format=esm',
+    '--outfile=@OUTPUT@',
+    '--sourcemap=inline',
+    '--external:gi://*',
+    '--external:gettext',
+    '--external:system',
+  ],
   output: 'index.js',
 )
 

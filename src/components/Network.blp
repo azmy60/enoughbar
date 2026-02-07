@@ -1,0 +1,11 @@
+using Gtk 4.0;
+
+template $Network: Box {
+    MenuButton {
+        Image {
+            icon-name: bind template.network-icon;
+        }
+
+        popover: Popover popover {};
+    }
+}
