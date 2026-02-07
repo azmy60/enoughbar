@@ -1,7 +1,6 @@
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 bindir = get_option('prefix') / get_option('bindir')
 blp = find_program('blueprint-compiler', required: true)
-sass = find_program('sass', required: true)
 esbuild = find_program('esbuild', required: true)
 gjs = find_program('gjs', required: true)
 layer_shell = dependency('gtk4-layer-shell-0')
@@ -24,28 +23,39 @@ ui = custom_target(
   ],
 )
 
+js_command = [
+  esbuild,
+  '--bundle', '@INPUT@',
+  '--format=esm',
+  '--outfile=@OUTPUT@',
+  '--sourcemap=inline',
+  '--external:gi://*',
+  '--external:gettext',
+  '--external:system',
+]
+if get_option('dev')
+  js_command += [
+    '--define:IS_DEVELOPMENT=true',
+  ]
+endif
+
 # bundle ts files
 js = custom_target(
   'typescript',
   input: files('App.ts'),
-  command: [
-    esbuild,
-    '--bundle', '@INPUT@',
-    '--format=esm',
-    '--outfile=@OUTPUT@',
-    '--sourcemap=inline',
-    '--external:gi://*',
-    '--external:gettext',
-    '--external:system',
-  ],
+  command: js_command,
   output: 'index.js',
 )
 
-# bundle scss files
+# bundle css files
 css = custom_target(
-  'scss',
-  input: files('style.scss'),
-  command: [sass, '@INPUT@', '@OUTPUT@'],
+  'css',
+  input: files('style.css'),
+  command: [
+    esbuild,
+    '--bundle', '@INPUT@',
+    '--outfile=@OUTPUT@',
+  ],
   output: 'style.css',
 )
 
@@ -53,7 +63,7 @@ css = custom_target(
 import('gnome').compile_resources(
   'data',
   files('gresource.xml'),
-  dependencies: [ui, css, js],
+  dependencies: [ui, js],
   gresource_bundle: true,
   install: true,
   install_dir: pkgdatadir,

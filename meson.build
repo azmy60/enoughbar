@@ -1,4 +1,4 @@
-project('simple-bar')
+project('enoughbar')
 
 dependency('astal-4-4.0')
 dependency('astal-battery-0.1')
