@@ -1,28 +1,37 @@
 using Gtk 4.0;
 
 template $Notification: Box {
-    MenuButton button {
-        icon-name: "notifications-symbolic";
+    MenuButton notif_btn {
+        css-classes: [
+            "notif-btn"
+        ];
+
+        Box {
+            spacing: 6;
+
+            Image {
+                icon-name: "preferences-system-notifications-symbolic";
+            }
+
+            Label notif_label {
+                visible: false;
+            }
+        }
 
         popover: Popover popover {
             has-arrow: true;
 
             Box root_box {
                 orientation: vertical;
-                             width-request: 380;
-                spacing: 6;
-                margin-top: 6;
-                margin-bottom: 6;
-                margin-start: 6;
-                margin-end: 6;
+                width-request: 460;
 
                 ScrolledWindow {
                     min-content-height: 200;
-                    max-content-height: 400;
+                    max-content-height: 500;
+                    propagate-natural-height: true;
 
                     Box list_box {
                         orientation: vertical;
-                        spacing: 8;
                     }
                 }
 

@@ -1,15 +1,15 @@
 import Astal from 'gi://Astal?version=4.0';
 import Gtk from 'gi://Gtk?version=4.0';
 import GObject from 'gi://GObject?version=2.0';
-import WorkspaceComponent from './WorkspaceComponent';
-import TrayComponent from './TrayComponent';
-import NetworkComponent from './NetworkComponent';
-import MediaPlayerComponent from './MediaPlayerComponent';
-import ClockComponent from './ClockComponent';
-import VolumeComponent from './VolumeComponent';
-import SystemComponent from './SystemComponent';
-import NotificationComponent from './NotificationComponent';
-// import BatteryComponent from './BatteryComponent';
+import WorkspaceComponent from './Workspace';
+import TrayComponent from './Tray';
+import NetworkComponent from './Network';
+import MediaPlayerComponent from './MediaPlayer';
+import ClockComponent from './Clock';
+import VolumeComponent from './Volume';
+import SystemComponent from './System';
+import NotificationComponent from './Notification';
+// import BatteryComponent from './Battery';
 
 const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
 

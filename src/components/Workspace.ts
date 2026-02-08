@@ -2,12 +2,17 @@ import Hyprland from 'gi://AstalHyprland';
 import Gtk from 'gi://Gtk?version=4.0';
 import GObject from 'gi://GObject?version=2.0';
 
+type WorkspaceButton = {
+    id: number;
+    button: Gtk.Button;
+};
+
 export default class WorkspaceComponent extends Gtk.Box {
     static {
         GObject.registerClass({ GTypeName: 'Workspace' }, this);
     }
 
-    private buttons = new Map<number, Gtk.Button>();
+    private workspaces: WorkspaceButton[] = [];
 
     constructor() {
         super({
@@ -51,25 +56,47 @@ export default class WorkspaceComponent extends Gtk.Box {
             label: workspace.name,
         });
         button.connect('clicked', () => workspace.focus());
-        this.append(button);
-        this.buttons.set(workspace.id, button);
+        const workspaceButton: WorkspaceButton = {
+            id: workspace.id,
+            button,
+        };
+        let insertAfterIdx = -1;
+        for (let i = 0; i < this.workspaces.length; i++) {
+            if (this.workspaces[i].id < workspace.id) {
+                insertAfterIdx = i;
+            } else {
+                break;
+            }
+        }
+        if (insertAfterIdx !== -1) {
+            this.insert_child_after(
+                button,
+                this.workspaces[insertAfterIdx].button
+            );
+            this.workspaces.splice(insertAfterIdx + 1, 0, workspaceButton);
+        } else {
+            this.append(button);
+            this.workspaces.push(workspaceButton);
+        }
     }
 
     private removeWorkspace(workspaceId: number): void {
-        const button = this.buttons.get(workspaceId);
-        if (button) {
-            this.remove(button);
-            button.run_dispose();
-            this.buttons.delete(workspaceId);
+        const workspace = this.workspaces.find(b => b.id === workspaceId);
+        if (workspace) {
+            this.remove(workspace.button);
+            workspace.button.run_dispose();
+            this.workspaces = this.workspaces.filter(
+                workspace => workspace.id !== workspaceId
+            );
         }
     }
 
     private focusWorkspace(workspaceId: number): void {
-        for (const [id, button] of this.buttons.entries()) {
-            if (id === workspaceId) {
-                button.add_css_class('active');
+        for (const workspace of this.workspaces) {
+            if (workspace.id === workspaceId) {
+                workspace.button.add_css_class('active');
             } else {
-                button.remove_css_class('active');
+                workspace.button.remove_css_class('active');
             }
         }
     }

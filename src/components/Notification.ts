@@ -1,6 +1,7 @@
 import Gtk from 'gi://Gtk?version=4.0';
 import GObject from 'gi://GObject?version=2.0';
 import Notifd from 'gi://AstalNotifd';
+import NotificationPopupComponent from './NotificationPopup';
 
 export default class NotificationComponent extends Gtk.Box {
     static {
@@ -9,7 +10,8 @@ export default class NotificationComponent extends Gtk.Box {
                 GTypeName: 'Notification',
                 Template: 'resource:///components/Notification.ui',
                 InternalChildren: [
-                    'button',
+                    'notif_btn',
+                    'notif_label',
                     'popover',
                     'list_box',
                     'clear_button',
@@ -19,26 +21,30 @@ export default class NotificationComponent extends Gtk.Box {
         );
     }
 
-    declare _button: Gtk.MenuButton;
+    declare _notif_btn: Gtk.MenuButton;
+    declare _notif_label: Gtk.Label;
     declare _popover: Gtk.Popover;
     declare _list_box: Gtk.Box;
     declare _clear_button: Gtk.Button;
 
     private notifd = Notifd.get_default();
-    private popupContainer: Gtk.Box | null = null;
-    private popupWindow: Gtk.Window | null = null;
 
     constructor() {
         super();
 
         this.refresh();
 
-        this.notifd.connect('notified', () => {
+        this.notifd.connect('notified', (_, id) => {
+            const notification = this.notifd.get_notification(id)!;
+            // TODO implement this
+            // this.addItem(notification)
             this.refresh();
-            this.popupNotification();
+            NotificationPopupComponent.showNotification(notification);
         });
 
-        this.notifd.connect('resolved', () => {
+        this.notifd.connect('resolved', (_, id) => {
+            // TODO implement this
+            // this.removeItem(notification)
             this.refresh();
         });
 
@@ -52,11 +58,17 @@ export default class NotificationComponent extends Gtk.Box {
     private refresh(): void {
         const notifications = this.notifd.get_notifications();
 
-        // Update icon
-        this._button.icon_name =
-            notifications.length > 0
-                ? 'notifications-unread-symbolic'
-                : 'notifications-symbolic';
+        if (notifications.length === 0) {
+            this._notif_btn.remove_css_class('has-notifications');
+            this._notif_label.visible = false;
+        } else {
+            this._notif_btn.add_css_class('has-notifications');
+            this._notif_label.visible = true;
+            this._notif_label.label =
+                notifications.length > 99
+                    ? '99+'
+                    : notifications.length.toString();
+        }
 
         // Clear list
         let child;
@@ -150,106 +162,6 @@ export default class NotificationComponent extends Gtk.Box {
         return row;
     }
 
-    private popupNotification(): void {
-        const notifications = this.notifd.get_notifications();
-        if (notifications.length === 0) return;
-
-        const latest = notifications[notifications.length - 1];
-
-        this.ensurePopupContainer();
-
-        const popup = new Gtk.Box({
-            orientation: Gtk.Orientation.HORIZONTAL,
-            spacing: 8,
-            css_classes: ['popup-notification'],
-            margin_top: 8,
-            margin_bottom: 8,
-            margin_start: 12,
-            margin_end: 12,
-        });
-
-        const icon = new Gtk.Image({
-            icon_name: latest.app_icon ?? 'dialog-information-symbolic',
-            pixel_size: 28,
-        });
-
-        const text = new Gtk.Box({
-            orientation: Gtk.Orientation.VERTICAL,
-            spacing: 4,
-            hexpand: true,
-        });
-
-        text.append(
-            new Gtk.Label({
-                label: latest.summary ?? '',
-                xalign: 0,
-                css_classes: ['heading'],
-            })
-        );
-
-        if (latest.body) {
-            text.append(
-                new Gtk.Label({
-                    label: latest.body,
-                    xalign: 0,
-                    wrap: true,
-                })
-            );
-        }
-
-        popup.append(icon);
-        popup.append(text);
-
-        this.popupContainer!.prepend(popup);
-
-        // Auto remove after 3s
-        setTimeout(() => {
-            if (popup.get_parent()) {
-                this.popupContainer!.remove(popup);
-            }
-
-            if (this.popupContainer!.get_first_child() === null) {
-                this.popupWindow?.close();
-                this.popupWindow = null;
-                this.popupContainer = null;
-            }
-        }, 3000);
-    }
-
-    private ensurePopupContainer(): void {
-        if (this.popupWindow) return;
-
-        this.popupWindow = new Gtk.Window({
-            decorated: false,
-            resizable: false,
-        });
-
-        this.popupWindow.set_hide_on_close(true);
-
-        this.popupContainer = new Gtk.Box({
-            orientation: Gtk.Orientation.VERTICAL,
-            spacing: 8,
-            margin_top: 12,
-            margin_end: 12,
-        });
-
-        this.popupWindow.set_child(this.popupContainer);
-
-        // Move to top-right
-        this.popupWindow.connect('map', () => {
-            const display = this.popupWindow!.get_display();
-            const monitor = display.get_primary_monitor();
-            if (!monitor) return;
-
-            const geo = monitor.get_geometry();
-            const width = 340;
-
-            this.popupWindow!.set_default_size(width, -1);
-            this.popupWindow!.move(geo.x + geo.width - width - 16, geo.y + 16);
-        });
-
-        this.popupWindow.present();
-    }
     private formatTime(timestamp: number): string {
         const date = new Date(timestamp * 1000); // if unix seconds
         return date.toLocaleTimeString([], {

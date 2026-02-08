@@ -8,6 +8,8 @@
         <file>components/MediaPlayer.ui</file>
         <file>components/Network.ui</file>
         <file>components/Notification.ui</file>
+        <file>components/NotificationPopup.ui</file>
+        <file>components/NotificationRow.ui</file>
         <file>components/System.ui</file>
         <file>components/Volume.ui</file>
     </gresource>

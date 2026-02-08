@@ -5,6 +5,7 @@ import Gtk from 'gi://Gtk?version=4.0';
 import Gdk from 'gi://Gdk?version=4.0';
 import Astal from 'gi://Astal?version=4.0';
 import Bar from './components/Bar';
+import NotificationPopupComponent from './components/NotificationPopup';
 
 const defaultOptions = {
     cssPath: 'build/src/style.css',
@@ -22,6 +23,7 @@ export default class App extends Astal.Application {
     readonly options: AppOptions;
 
     private bar!: Bar;
+    private notificationPopup!: NotificationPopupComponent;
     private monitor!: Gio.FileMonitor;
 
     constructor(options: Partial<AppOptions> = {}) {
@@ -88,7 +90,9 @@ export default class App extends Astal.Application {
             // main instance, initialize stuff here
             this.initCss();
             this.bar = new Bar();
+            this.notificationPopup = new NotificationPopupComponent();
             this.add_window(this.bar);
+            this.add_window(this.notificationPopup);
         }
 
         return 0;
