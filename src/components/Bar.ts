@@ -7,6 +7,8 @@ import NetworkComponent from './NetworkComponent';
 import MediaPlayerComponent from './MediaPlayerComponent';
 import ClockComponent from './ClockComponent';
 import VolumeComponent from './VolumeComponent';
+import SystemComponent from './SystemComponent';
+import NotificationComponent from './NotificationComponent';
 // import BatteryComponent from './BatteryComponent';
 
 const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
@@ -37,13 +39,15 @@ export default class Bar extends Astal.Window {
 
         this.namespace = "enoughbar";
 
+        this._start_box.append(new SystemComponent());
         this._start_box.append(new WorkspaceComponent());
         this._center_box.append(new MediaPlayerComponent());
         this._end_box.append(new VolumeComponent());
-        this._end_box.append(new ClockComponent());
         this._end_box.append(new NetworkComponent());
         // this._end_box.append(new BatteryComponent());
         this._end_box.append(new TrayComponent());
+        this._end_box.append(new ClockComponent());
+        this._end_box.append(new NotificationComponent());
     }
 
 }

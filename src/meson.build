@@ -11,6 +11,8 @@ blueprint_sources = files(
   'components/Clock.blp',
   'components/MediaPlayer.blp',
   'components/Network.blp',
+  'components/Notification.blp',
+  'components/System.blp',
   'components/Volume.blp',
 )
 

@@ -1,0 +1,37 @@
+using Gtk 4.0;
+
+template $Notification: Box {
+    MenuButton button {
+        icon-name: "notifications-symbolic";
+
+        popover: Popover popover {
+            has-arrow: true;
+
+            Box root_box {
+                orientation: vertical;
+                             width-request: 380;
+                spacing: 6;
+                margin-top: 6;
+                margin-bottom: 6;
+                margin-start: 6;
+                margin-end: 6;
+
+                ScrolledWindow {
+                    min-content-height: 200;
+                    max-content-height: 400;
+
+                    Box list_box {
+                        orientation: vertical;
+                        spacing: 8;
+                    }
+                }
+
+                Separator {}
+
+                Button clear_button {
+                    label: "Clear All";
+                }
+            }
+        };
+    }
+}

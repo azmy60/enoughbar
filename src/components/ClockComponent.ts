@@ -25,9 +25,9 @@ export default class ClockComponent extends Gtk.Box {
     constructor() {
         super();
 
-        this.label = GLib.DateTime.new_now_local().format('%H:%M:%S')!;
+        this.label = GLib.DateTime.new_now_local().format('%H:%M')!;
         const interval = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
-            this.label = GLib.DateTime.new_now_local().format('%H:%M:%S')!;
+            this.label = GLib.DateTime.new_now_local().format('%H:%M')!;
             return GLib.SOURCE_CONTINUE;
         });
         this.connect('destroy', () => GLib.Source.remove(interval));
