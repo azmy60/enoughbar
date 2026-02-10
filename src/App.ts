@@ -5,7 +5,8 @@ import Gtk from 'gi://Gtk?version=4.0';
 import Gdk from 'gi://Gdk?version=4.0';
 import Astal from 'gi://Astal?version=4.0';
 import Bar from './components/Bar';
-import NotificationPopupComponent from './components/NotificationPopup';
+import NotificationPopup from './components/NotificationPopup';
+import { AppContext } from './types';
 
 const defaultOptions = {
     cssPath: 'build/src/style.css',
@@ -23,7 +24,7 @@ export default class App extends Astal.Application {
     readonly options: AppOptions;
 
     private bar!: Bar;
-    private notificationPopup!: NotificationPopupComponent;
+    private notificationPopup: NotificationPopup | null = null;
     private monitor!: Gio.FileMonitor;
 
     constructor(options: Partial<AppOptions> = {}) {
@@ -89,13 +90,31 @@ export default class App extends Astal.Application {
         } else {
             // main instance, initialize stuff here
             this.initCss();
-            this.bar = new Bar();
-            this.notificationPopup = new NotificationPopupComponent();
+            const context: AppContext = {
+                pushNotification: (notification) => {
+                    if (!this.notificationPopup) {
+                        this.createNotificationPopup()
+                    }
+                    this.notificationPopup!.push(notification);
+                },
+            };
+
+            this.bar = new Bar(context);
             this.add_window(this.bar);
-            this.add_window(this.notificationPopup);
+            this.createNotificationPopup();
         }
 
         return 0;
+    }
+
+    createNotificationPopup() {
+        // yuck this is ugly..!
+        this.notificationPopup = new NotificationPopup(() => {
+            this.notificationPopup!.close();
+            this.remove_window(this.notificationPopup!);
+            this.notificationPopup = null;
+        });
+        this.add_window(this.notificationPopup);
     }
 
     // entry point of our app

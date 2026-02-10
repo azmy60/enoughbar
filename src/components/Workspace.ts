@@ -60,23 +60,14 @@ export default class WorkspaceComponent extends Gtk.Box {
             id: workspace.id,
             button,
         };
-        let insertAfterIdx = -1;
-        for (let i = 0; i < this.workspaces.length; i++) {
-            if (this.workspaces[i].id < workspace.id) {
-                insertAfterIdx = i;
-            } else {
-                break;
-            }
-        }
-        if (insertAfterIdx !== -1) {
-            this.insert_child_after(
-                button,
-                this.workspaces[insertAfterIdx].button
-            );
-            this.workspaces.splice(insertAfterIdx + 1, 0, workspaceButton);
+        this.workspaces.push(workspaceButton);
+        this.workspaces.sort((a, b) => a.id - b.id);
+        const idx = this.workspaces.findIndex(b => b.id === workspace.id);
+        if (idx === 0) {
+            this.prepend(button);
         } else {
-            this.append(button);
-            this.workspaces.push(workspaceButton);
+            const prev = this.workspaces[idx - 1];
+            this.insert_child_after(button, prev.button);
         }
     }
 

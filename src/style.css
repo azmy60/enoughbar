@@ -1,15 +1,24 @@
 /* https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-4-16/gtk/theme/Default/_colors-public.scss */
 
 window {
-    --theme-bg: linear-gradient(135deg,
-            rgba(255, 255, 255, 0.28) 0%,
-            rgba(255, 255, 255, 0.22) 30%,
-            rgba(255, 255, 255, 0.16) 70%,
-            rgba(255, 255, 255, 0.2) 100%);
-    --theme-border: 1px solid rgba(255, 255, 255, 0.34);
+--theme-bg: linear-gradient(135deg,
+        rgba(160, 160, 160, 0.32) 0%,
+        rgba(140, 140, 140, 0.26) 30%,
+        rgba(120, 120, 120, 0.2) 70%,
+        rgba(135, 135, 135, 0.24) 100%);
+--theme-border: 1px solid rgba(120, 120, 120, 0.4);
     --theme-box-shadow:
         0 0 12px rgba(0, 0, 0, 0.2), 0 6px 16px rgba(0, 0, 0, 0.25);
     --theme-color: white;
+}
+
+window.background {
+    background: var(--theme-bg);
+    color: var(--theme-color);
+}
+
+window .titlebar {
+    background: transparent;
 }
 
 window.Bar>box {
@@ -25,6 +34,7 @@ popover contents{
     box-shadow: var(--theme-box-shadow);
     color: var(--theme-color);
     transition: background 0.15s;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
 }
 
 .notification-popup {
@@ -135,4 +145,8 @@ button.workspace-btn {
         0 0 96px rgba(255, 90, 0, 1),
         inset 0 2px 0 rgba(255, 255, 255, 0.8),
         inset 0 -2px 0 rgba(0, 0, 0, 0.4);
+}
+
+calendar.view {
+    color: var(--theme-color);
 }

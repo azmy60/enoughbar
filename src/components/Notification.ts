@@ -1,7 +1,7 @@
 import Gtk from 'gi://Gtk?version=4.0';
 import GObject from 'gi://GObject?version=2.0';
 import Notifd from 'gi://AstalNotifd';
-import NotificationPopupComponent from './NotificationPopup';
+import { AppContext } from '../types';
 
 export default class NotificationComponent extends Gtk.Box {
     static {
@@ -29,7 +29,7 @@ export default class NotificationComponent extends Gtk.Box {
 
     private notifd = Notifd.get_default();
 
-    constructor() {
+    constructor(context: AppContext) {
         super();
 
         this.refresh();
@@ -39,7 +39,7 @@ export default class NotificationComponent extends Gtk.Box {
             // TODO implement this
             // this.addItem(notification)
             this.refresh();
-            NotificationPopupComponent.showNotification(notification);
+            context.pushNotification(notification);
         });
 
         this.notifd.connect('resolved', (_, id) => {
