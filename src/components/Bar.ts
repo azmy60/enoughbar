@@ -10,6 +10,7 @@ import Volume from './Volume';
 import System from './System';
 import Notification from './Notification';
 import { AppContext } from '../types';
+import Bluetooth from './Bluetooth';
 // import BatteryComponent from './Battery';
 
 const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
@@ -43,6 +44,7 @@ export default class Bar extends Astal.Window {
         this._start_box.append(new System());
         this._start_box.append(new Workspace());
         this._center_box.append(new MediaPlayer());
+        this._end_box.append(new Bluetooth());
         this._end_box.append(new Volume());
         this._end_box.append(new Network());
         // this._end_box.append(new BatteryComponent());

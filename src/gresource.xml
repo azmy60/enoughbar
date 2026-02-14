@@ -4,12 +4,13 @@
         <file>index.js</file>
         <file>components/Bar.ui</file>
         <file>components/Battery.ui</file>
+        <file>components/Bluetooth.ui</file>
         <file>components/Clock.ui</file>
         <file>components/MediaPlayer.ui</file>
         <file>components/Network.ui</file>
         <file>components/Notification.ui</file>
         <file>components/NotificationPopup.ui</file>
-        <file>components/NotificationRow.ui</file>
+        <file>components/NotificationBox.ui</file>
         <file>components/System.ui</file>
         <file>components/Volume.ui</file>
     </gresource>

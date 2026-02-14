@@ -1,14 +1,13 @@
 /* https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-4-16/gtk/theme/Default/_colors-public.scss */
-
 window {
---theme-bg: linear-gradient(135deg,
-        rgba(160, 160, 160, 0.32) 0%,
-        rgba(140, 140, 140, 0.26) 30%,
-        rgba(120, 120, 120, 0.2) 70%,
-        rgba(135, 135, 135, 0.24) 100%);
---theme-border: 1px solid rgba(120, 120, 120, 0.4);
+    --theme-bg: linear-gradient(135deg,
+            rgba(10, 10, 10, 0.8) 0%,
+            rgba(8, 8, 8, 0.7) 30%,
+            rgba(5, 5, 5, 0.6) 70%,
+            rgba(7, 7, 7, 0.75) 100%);
+    --theme-border: 1px solid rgba(60, 60, 60, 0.6);
     --theme-box-shadow:
-        0 0 12px rgba(0, 0, 0, 0.2), 0 6px 16px rgba(0, 0, 0, 0.25);
+        0 0 6px rgba(0, 0, 0, 0.4), 0 3px 8px rgba(0, 0, 0, 0.5);
     --theme-color: white;
 }
 
@@ -28,29 +27,21 @@ window.Bar>box {
 
 button,
 popover arrow,
-popover contents{
+popover contents {
     background: var(--theme-bg);
     border: var(--theme-border);
-    box-shadow: var(--theme-box-shadow);
+    /* box-shadow: var(--theme-box-shadow); */
     color: var(--theme-color);
     transition: background 0.15s;
     text-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
 }
 
-.notification-popup {
-    background: transparent;
-}
-
-.notification-popup >box{
-    background: transparent;
-}
-.notification-popup-container {
-    background: transparent;
-}
-
+.notification-popup,
+.notification-popup>box,
+.notification-popup-container,
+.notification-list,
 .notification-row {
-    background: var(--theme-bg);
-    border: var(--theme-border);
+    background: transparent;
 }
 
 button {
@@ -64,10 +55,10 @@ button {
 button:hover,
 modelbutton:hover {
     background: linear-gradient(135deg,
-            rgba(255, 255, 255, 0.22) 0%,
-            rgba(255, 255, 255, 0.18) 30%,
-            rgba(255, 255, 255, 0.12) 70%,
-            rgba(255, 255, 255, 0.16) 100%);
+            rgba(40, 40, 40, 0.9) 0%,
+            rgba(35, 35, 35, 0.85) 30%,
+            rgba(30, 30, 30, 0.8) 70%,
+            rgba(32, 32, 32, 0.87) 100%);
     color: var(--theme-color);
 }
 
@@ -77,7 +68,7 @@ modelbutton:hover {
     border-radius: 8px;
     background: var(--theme-bg);
     border: var(--theme-border);
-    box-shadow: var(--theme-box-shadow);
+    /* box-shadow: var(--theme-box-shadow); */
 }
 
 button.workspace-btn {
@@ -87,64 +78,59 @@ button.workspace-btn {
 
 .workspace-btn-group button.active {
     background: rgba(255, 255, 255, 0.92);
-    color: blue;
+    color: black;
 }
 
 .workspace-btn-group button.active:hover {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.85);
+    color: black;
 }
 
-.notification-row {
+.notification-box {
+    background: var(--theme-bg);
+    border: var(--theme-border);
     padding: 8px;
-    border-radius: 8px;
     margin-bottom: 8px;
-}
-
-.notification-row:hover {
-    background-color: alpha(currentColor, 0.06);
-}
-
-.notification-row {
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 12px;
+    color: var(--theme-color);
     /* box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3); */
+}
+
+.notification-box:hover {
+    background-color: alpha(currentColor, 0.06);
 }
 
 .notif-btn.has-notifications button.toggle {
     background: linear-gradient(135deg,
-            rgba(255, 190, 90, 0.92) 0%,
-            rgba(255, 140, 20, 0.88) 30%,
-            rgba(255, 90, 0, 0.82) 70%,
-            rgba(255, 60, 0, 0.9) 100%);
-
-    border: 1px solid rgba(255, 130, 30, 0.65);
-    /* border: 1px solid rgba(255, 210, 140, 1.0); */
-
-    box-shadow:
-        0 56px 120px rgba(0, 0, 0, 0.8),
-        0 20px 72px rgba(255, 110, 0, 1),
-        0 0 48px rgba(255, 130, 0, 1),
-        0 0 72px rgba(255, 80, 0, 0.95),
-        inset 0 2px 0 rgba(255, 255, 255, 0.7),
-        inset 0 -2px 0 rgba(0, 0, 0, 0.35);
+            rgba(40, 30, 10, 0.92) 0%,
+            rgba(35, 25, 5, 0.88) 30%,
+            rgba(30, 20, 0, 0.82) 70%,
+            rgba(25, 15, 0, 0.9) 100%);
+    border: 1px solid rgba(30, 20, 5, 0.8);
+    /* box-shadow: */
+    /*     0 56px 120px rgba(0, 0, 0, 0.8), */
+    /*     0 20px 72px rgba(40, 25, 0, 1), */
+    /*     0 0 48px rgba(35, 20, 0, 1), */
+    /*     0 0 72px rgba(30, 15, 0, 0.95), */
+    /*     inset 0 2px 0 rgba(50, 40, 20, 0.7), */
+    /*     inset 0 -2px 0 rgba(0, 0, 0, 0.35); */
 }
 
 .notif-btn.has-notifications button.toggle:hover {
     background: linear-gradient(135deg,
-            rgba(255, 210, 120, 1) 0%,
-            rgba(255, 160, 40, 0.95) 30%,
-            rgba(255, 100, 0, 0.9) 70%,
-            rgba(255, 70, 0, 1) 100%);
-
-    border: 1px solid rgba(255, 150, 40, 0.75);
-
-    box-shadow:
-        0 64px 140px rgba(0, 0, 0, 0.85),
-        0 24px 80px rgba(255, 120, 0, 1),
-        0 0 64px rgba(255, 150, 0, 1),
-        0 0 96px rgba(255, 90, 0, 1),
-        inset 0 2px 0 rgba(255, 255, 255, 0.8),
-        inset 0 -2px 0 rgba(0, 0, 0, 0.4);
+            rgba(45, 35, 15, 1) 0%,
+            rgba(40, 30, 10, 0.95) 30%,
+            rgba(35, 25, 0, 0.9) 70%,
+            rgba(30, 20, 0, 1) 100%);
+    border: 1px solid rgba(35, 25, 8, 0.85);
+    /* box-shadow: */
+    /*     0 64px 140px rgba(0, 0, 0, 0.85), */
+    /*     0 24px 80px rgba(45, 30, 0, 1), */
+    /*     0 0 64px rgba(40, 25, 0, 1), */
+    /*     0 0 96px rgba(35, 20, 0, 1), */
+    /*     inset 0 2px 0 rgba(55, 45, 25, 0.8), */
+    /*     inset 0 -2px 0 rgba(0, 0, 0, 0.4); */
 }
 
 calendar.view {

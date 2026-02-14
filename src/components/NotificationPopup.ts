@@ -1,6 +1,6 @@
 import Astal from 'gi://Astal?version=4.0';
 import Gtk from 'gi://Gtk?version=4.0';
-import NotificationRow from './NotificationRow';
+import NotificationBox from './NotificationBox';
 import GObject from 'gi://GObject?version=2.0';
 import Notifd from 'gi://AstalNotifd';
 
@@ -35,7 +35,7 @@ export default class NotificationPopupComponent extends Astal.Window {
     }
 
     push(notification: Notifd.Notification) {
-        const row = new NotificationRow(notification);
+        const row = new NotificationBox(notification);
 
         this.container!.prepend(row);
 

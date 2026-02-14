@@ -22,6 +22,7 @@ export default class TrayComponent extends Gtk.Box {
 
             item.bind_property('gicon', icon, 'gicon', SYNC);
             popover.insert_action_group('dbusmenu', item.action_group);
+            popover.hasArrow = false;
             item.connect('notify::action-group', () => {
                 popover.insert_action_group('dbusmenu', item.action_group);
             });

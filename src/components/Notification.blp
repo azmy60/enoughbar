@@ -3,7 +3,7 @@ using Gtk 4.0;
 template $Notification: Box {
     MenuButton notif_btn {
         css-classes: [
-            "notif-btn"
+            "notif-btn",
         ];
 
         Box {
@@ -13,32 +13,41 @@ template $Notification: Box {
                 icon-name: "preferences-system-notifications-symbolic";
             }
 
-            Label notif_label {
-                visible: false;
+            Label {
+                label: bind template.notif-count;
+                visible: bind template.empty inverted;
             }
         }
 
         popover: Popover popover {
-            has-arrow: true;
+            has-arrow: false;
 
             Box root_box {
                 orientation: vertical;
                 width-request: 460;
+
+                Label {
+                    visible: bind template.empty;
+                    label: "No notifications";
+                }
 
                 ScrolledWindow {
                     min-content-height: 200;
                     max-content-height: 500;
                     propagate-natural-height: true;
 
-                    Box list_box {
-                        orientation: vertical;
+                    ListBox list-box {
+                        css-classes: [
+                            "notification-list",
+                        ];
                     }
                 }
 
                 Separator {}
 
-                Button clear_button {
-                    label: "Clear All";
+                Button {
+                    label: "Dismiss All";
+                    clicked => $on_dismiss_all();
                 }
             }
         };

@@ -1,0 +1,36 @@
+using Gtk 4.0;
+
+template $NotificationBox: Box {
+    css-classes: [
+        "notification-box",
+    ];
+
+    Image icon {}
+
+    Box {
+        Box text_box {
+            orientation: vertical;
+
+            Box {
+                Label {
+                    label: bind template.title;
+                }
+
+                Label {
+                    label: bind template.time;
+                }
+            }
+
+            Label body {
+                wrap: true;
+                visible: false;
+            }
+        }
+
+        Button {
+            icon-name: "window-close-symbolic";
+            visible: bind template.show-dismiss;
+            clicked => $on_dismiss();
+        }
+    }
+}

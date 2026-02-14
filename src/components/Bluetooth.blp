@@ -1,0 +1,28 @@
+using Gtk 4.0;
+
+template $Bluetooth: Box {
+    MenuButton {
+        icon-name: "bluetooth-symbolic";
+
+        popover: Popover {
+            has-arrow: false;
+
+            Box root_box {
+                orientation: vertical;
+                width-request: 460;
+
+                ScrolledWindow {
+                    min-content-height: 200;
+                    max-content-height: 500;
+                    propagate-natural-height: true;
+
+                    Box list_box {
+                        orientation: vertical;
+                    }
+                }
+
+                Separator {}
+            }
+        };
+    }
+}

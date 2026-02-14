@@ -8,12 +8,13 @@ layer_shell = dependency('gtk4-layer-shell-0')
 blueprint_sources = files(
   'components/Bar.blp',
   'components/Battery.blp',
+  'components/Bluetooth.blp',
   'components/Clock.blp',
   'components/MediaPlayer.blp',
   'components/Network.blp',
   'components/Notification.blp',
   'components/NotificationPopup.blp',
-  'components/NotificationRow.blp',
+  'components/NotificationBox.blp',
   'components/System.blp',
   'components/Volume.blp',
 )
