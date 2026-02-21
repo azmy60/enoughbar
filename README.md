@@ -2,7 +2,7 @@
 
 <img width="1920" height="44" alt="image" src="https://github.com/user-attachments/assets/b6038b8d-17b4-4a2a-bdd1-0d2d4fb4f3f9" />
 
-It's a minimal hyprland status bar that makes you feel "this is not enough" because it's not configurable or beautiful enough. If you feel enough, that's enough(bar).
+It's a minimal hyprland status bar that makes you feel "this is not enough" because it's not configurable or beautiful enough.
 
 ## How to use
 
