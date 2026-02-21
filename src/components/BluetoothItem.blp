@@ -1,0 +1,46 @@
+using Gtk 4.0;
+
+template $BluetoothItem: Box {
+    orientation: horizontal;
+    spacing: 8;
+
+    Image {
+        icon-name: bind template.icon;
+    }
+
+    Label name_label {
+        label: bind template.device-name;
+        hexpand: true;
+        xalign: 0;
+    }
+
+    Label {
+        visible: bind template.battery-visible;
+        label: bind template.battery-percentage;
+    }
+
+    Button button {
+        child: Box {
+            Image {
+                visible: bind template.loading;
+                icon-name: "process-working-symbolic";
+
+                css-classes: [
+                    "spinner",
+                ];
+            }
+
+            Label {
+                visible: bind template.connected;
+                label: "Disconnect";
+            }
+
+            Label {
+                visible: bind template.connected inverted;
+                label: "Connect";
+            }
+        };
+
+        clicked => $on_toggle_connect();
+    }
+}

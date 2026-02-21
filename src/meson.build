@@ -9,6 +9,7 @@ blueprint_sources = files(
   'components/Bar.blp',
   'components/Battery.blp',
   'components/Bluetooth.blp',
+  'components/BluetoothItem.blp',
   'components/Clock.blp',
   'components/MediaPlayer.blp',
   'components/Network.blp',
@@ -17,6 +18,7 @@ blueprint_sources = files(
   'components/NotificationBox.blp',
   'components/System.blp',
   'components/Volume.blp',
+  'components/Workspace.blp',
 )
 
 # transplie blueprints

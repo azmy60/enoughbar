@@ -1,13 +1,16 @@
 using Gtk 4.0;
 
-template $MediaPlayer: Box {
-    visible: bind template.mpris-visible;
-
+template $MediaPlayer: Overlay {
     Image {
-        file: bind template.mpris-art;
+        file: bind template.art;
+        hexpand: true;
+        vexpand: true;
     }
 
-    Label {
-        label: bind template.mpris-label;
+    [overlay]
+    Box {
+        Label {
+            label: bind template.label;
+        }
     }
 }

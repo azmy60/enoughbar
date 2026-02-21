@@ -9,26 +9,27 @@ type WorkspaceButton = {
 
 export default class WorkspaceComponent extends Gtk.Box {
     static {
-        GObject.registerClass({ GTypeName: 'Workspace' }, this);
+        GObject.registerClass(
+            {
+                GTypeName: 'Workspace',
+                Template: 'resource:///components/Workspace.ui',
+            },
+            this
+        );
     }
 
     private workspaces: WorkspaceButton[] = [];
 
     constructor() {
-        super({
-            cssClasses: ['workspace-btn-group'],
-        });
+        super();
 
         const hypr = Hyprland.get_default();
-
         const id1 = hypr.connect('workspace-added', (_, workspace) =>
             this.addWorkspace(workspace)
         );
-
         const id2 = hypr.connect('workspace-removed', (_, workspaceId) =>
             this.removeWorkspace(workspaceId)
         );
-
         const id3 = hypr.connect('notify::focused-workspace', () => {
             this.focusWorkspace(hypr.get_focused_workspace().id);
         });
@@ -56,12 +57,14 @@ export default class WorkspaceComponent extends Gtk.Box {
             label: workspace.name,
         });
         button.connect('clicked', () => workspace.focus());
+
         const workspaceButton: WorkspaceButton = {
             id: workspace.id,
             button,
         };
         this.workspaces.push(workspaceButton);
         this.workspaces.sort((a, b) => a.id - b.id);
+
         const idx = this.workspaces.findIndex(b => b.id === workspace.id);
         if (idx === 0) {
             this.prepend(button);

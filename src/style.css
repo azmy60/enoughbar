@@ -64,11 +64,22 @@ modelbutton:hover {
 
 .workspace-btn-group {
     margin: 0 4px;
-    padding: 0 4px;
+    /* padding: 0 4px; */
     border-radius: 8px;
     background: var(--theme-bg);
     border: var(--theme-border);
     /* box-shadow: var(--theme-box-shadow); */
+}
+
+.add-workspace {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.add-workspace:hover {
+    background: var(--theme-bg);
+    border: var(--theme-border);
+    padding: 8px;
 }
 
 button.workspace-btn {
@@ -135,4 +146,18 @@ button.workspace-btn {
 
 calendar.view {
     color: var(--theme-color);
+}
+
+list, row {
+    background: transparent;
+    color: var(--theme-color);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

@@ -1,6 +1,8 @@
 import Gtk from 'gi://Gtk?version=4.0';
+import Gio from 'gi://Gio';
 import GObject from 'gi://GObject?version=2.0';
 import AstalBluetooth from 'gi://AstalBluetooth';
+import { BluetoothItem } from './BluetoothItem';
 
 export default class Bluetooth extends Gtk.Box {
     static {
@@ -14,40 +16,32 @@ export default class Bluetooth extends Gtk.Box {
         );
     }
 
-    declare _list_box: Gtk.Box;
+    declare _list_box: Gtk.ListBox;
 
-    private devices: {
-        device: AstalBluetooth.Device;
-        box: Gtk.Box;
-    }[] = [];
+    private listStore = Gio.ListStore.new(
+        AstalBluetooth.Device.$gtype
+    ) as Gio.ListStore<AstalBluetooth.Device>;
 
     constructor() {
         super();
 
         const bluetooth = AstalBluetooth.get_default();
 
-        bluetooth.devices.forEach(device => this.addDevices(device));
+        this._list_box.bind_model(this.listStore, device => {
+            return new Gtk.ListBoxRow({ child: new BluetoothItem(device) });
+        });
+
+        this.listStore.splice(0, 0, bluetooth.devices);
 
         bluetooth.connect('device-added', (_, device) =>
-            this.addDevices(device)
+            this.listStore.append(device)
         );
 
-        bluetooth.connect('device-removed', (_, device) =>
-            this.removeDevice(device)
-        );
-    }
-
-    addDevices(device: AstalBluetooth.Device): void {
-        const box = new Gtk.Box();
-        box.append(new Gtk.Label({ label: device.name }));
-        this.devices.push({ device, box });
-        this._list_box.append(box);
-    }
-
-    removeDevice(device: AstalBluetooth.Device): void {
-        const idx = this.devices.findIndex(d => d.device.name === device.name);
-        if (idx === -1) return;
-        this._list_box.remove(this.devices[idx].box);
-        this.devices.splice(idx, 1);
+        bluetooth.connect('device-removed', (_, device) => {
+            const [found, idx] = this.listStore.find(device);
+            if (found) {
+                this.listStore.remove(idx);
+            }
+        });
     }
 }
